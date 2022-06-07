@@ -1,0 +1,227 @@
+ERROR REPORTING
+
+
+17. A program to implement  error reporting using  errno,perror function.
+
+
+#include<errno.h>
+#include<stdlib.h>
+extern int errno;
+main()
+{
+FILE *fp;
+fp=fopen("fork.c","r");
+if(!fp)
+{
+terror();
+printf("\n Error number is %d",errno);
+printf("\n press enter \n");
+getchar();
+system("man perror");
+}
+else
+printf("\n File already exists \n");
+fclose(fp);
+}
+terror()
+{
+printf("\n The file cannot be opened:");
+printf("\n There is no such file or directory available");
+}
+
+
+
+"err.c" 27L, 410C written
+[dmgv@LinuxServer ~]$ cc err.c
+[dmgv@LinuxServer ~]$ ./a.out
+
+ File already exists
+
+
+
+
+
+
+
+
+
+18.A program to handle ENONET using error report system call.
+
+
+
+#include<errno.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+main(int args,char *argv[])
+{
+FILE *fp;
+char ch;
+fp=fopen(argv[1],"r");
+if(errno==ENOENT)
+perror(argv[1]);
+else
+{
+while((ch=fgetc(fp))!=EOF)
+putchar(ch);
+}
+fclose(fp);
+}
+
+
+
+
+
+"ENOENT.c" 19L, 244C written
+[dmgv@LinuxServer ~]$ cc ENOENT.c
+[dmgv@LinuxServer ~]$ ./a.out fifo.c
+#include<stdio.h>
+main()
+{
+ int i,j,n,a[50],frame[10],no,k,avail,count=0;
+ printf("\nenter the number of pages\n");
+ scanf("%d",&n);
+ printf("\nenter the page number:\n");
+ for(i=1;i<=n;i++)
+  scanf("%d",&a[i]);
+ printf("\nenter the number of frames\n");
+ scanf("%d",&no);
+ for(i=0;i<no;i++)
+  frame[i]=-1;
+   j=0;
+  printf("ref string \t page frames\n");
+  for(i=1;i<=n;i++)
+  {
+    printf("%d\t\t",a[i]);
+    avail=0;
+    for(k=0;k<no;k++)
+     if(frame[k]==a[i])
+      avail=1;
+     if(avail==0)
+     {
+      frame[j]=a[i];
+      j=(j+1)%no;
+      count++;
+      for(k=0;k<no;k++)
+       printf("%d\t",frame[k]);
+     }
+    printf("\n");
+  }
+  printf("\npage fault is %d",count);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+19. A program to handle EISDIR using error report system call.
+
+
+
+
+#include<errno.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+main(int args,char *argv[])
+{
+FILE *fp;
+char ch;
+fp=open(argv[1],"w");
+if(errno==EISDIR) perror(argv[1]);
+else
+{
+printf("not a directory");
+}
+}
+
+
+
+
+~
+~
+
+"esidir.c" [New] 16L, 218C written
+[dmgv@LinuxServer ~]$ cc esidir.c                           
+ [dmgv@LinuxServer ~]$ ./a.out fifo.c
+not a directory[dmgv@LinuxServer ~]$ ./a.out d1
+not a directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20. . A program to handle ENOTEMPTY using error report system call.
+
+
+
+
+#include<errno.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+main(int args,char *argv[])
+{
+mkdir(argv[1]);
+if(errno!=ENOTEMPTY)
+perror(argv[1]);
+else
+{
+printf("directoty is not created");
+}
+}
+
+
+
+
+
+
+
+
+~
+"enotempty.c" 15L, 205C written
+[dmgv@LinuxServer ~]$ cc enotempty.c
+[dmgv@LinuxServer ~]$ ./a.out dir1
+dir1: File exists
+
+
+
+
+
+
+
+
+
+
+
